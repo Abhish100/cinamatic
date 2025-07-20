@@ -66,44 +66,8 @@ A beautiful, personality-based movie recommendation system that helps users disc
 - Docker and Docker Compose installed
 - API keys for full functionality
 
-#### Quick Deployment
 
-1. **Set up environment variables**
-   ```bash
-   cp config.env .env
-   # Edit .env with your API keys
-   ```
 
-2. **Deploy with Docker**
-   ```bash
-   # On Linux/macOS
-   ./deploy.sh
-   
-   # On Windows
-   docker-compose up --build -d
-   ```
-
-3. **Access the application**
-   - Production: `http://localhost`
-   - Direct: `http://localhost:5000`
-
-#### Manual Deployment
-
-```bash
-# Build and start all services
-docker-compose up --build -d
-
-# View logs
-docker-compose logs -f
-
-# Stop the application
-docker-compose down
-
-# Restart the application
-docker-compose restart
-```
-
-## 🔧 Configuration
 
 ### API Keys (Optional)
 
