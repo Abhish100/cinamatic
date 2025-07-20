@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Movies - Cinematic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="search-container">
+        <div class="search-header">
+            <h1 class="search-title">🎬 Discover Your Next Favorite Film</h1>
+            <p class="search-subtitle">Search through thousands of movies to find your perfect match</p>
+        </div>
+        
+        <div class="search-form-container">
+            <form class="search-form" action="{{ url_for('search') }}" method="GET">
+                <div class="search-input-group">
+                    <input 
+                        type="text" 
+                        name="q" 
+                        placeholder="Search for movies..." 
+                        class="search-input"
+                        autocomplete="off"
+                        required
+                    >
+                    <button type="submit" class="search-button">
+                        <span class="search-icon">🔍</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="search-suggestions">
+            <h3>Popular Searches</h3>
+            <div class="suggestion-tags">
+                <span class="suggestion-tag" onclick="searchFor('action')">Action</span>
+                <span class="suggestion-tag" onclick="searchFor('drama')">Drama</span>
+                <span class="suggestion-tag" onclick="searchFor('comedy')">Comedy</span>
+                <span class="suggestion-tag" onclick="searchFor('sci-fi')">Sci-Fi</span>
+                <span class="suggestion-tag" onclick="searchFor('horror')">Horror</span>
+                <span class="suggestion-tag" onclick="searchFor('romance')">Romance</span>
+                <span class="suggestion-tag" onclick="searchFor('thriller')">Thriller</span>
+                <span class="suggestion-tag" onclick="searchFor('documentary')">Documentary</span>
+            </div>
+        </div>
+        
+        <div class="search-navigation">
+            <a href="{{ url_for('index') }}" class="nav-link">🏠 Home</a>
+            <a href="{{ url_for('new_movies') }}" class="nav-link">🎬 New Movies</a>
+            <a href="{{ url_for('quiz') }}" class="nav-link">🧠 Take Quiz</a>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        function searchFor(query) {
+            window.location.href = `{{ url_for('search') }}?q=${encodeURIComponent(query)}`;
+        }
+        
+        // Add search input focus effects
+        document.querySelector('.search-input').addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+        
+        document.querySelector('.search-input').addEventListener('blur', function() {
+            this.parentElement.classList.remove('focused');
+        });
+    </script>
+</body>
+</html> 

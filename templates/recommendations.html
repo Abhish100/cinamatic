@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Recommendations - Cinematic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="recommendations-page" data-top-genre="{{ personality_profile.traits[0] if personality_profile.traits else 'drama' }}">
+    <div class="recommendations-container">
+        <div class="loading-animation" id="loadingAnimation">
+            <div class="film-reel">🎬</div>
+            <div class="loading-quotes">
+                <div class="quote">"Here's looking at you, kid."</div>
+                <div class="quote">"May the Force be with you."</div>
+                <div class="quote">"I'll be back."</div>
+            </div>
+        </div>
+        
+        <div class="recommendations-header">
+            <h1>Your Cinematic Matches</h1>
+            <p>Based on your personality profile, here are movies that resonate with your unique taste</p>
+            
+            <div class="personality-summary">
+                <h2 class="profile-title">{{ personality_profile.profile_name }}</h2>
+                <p class="profile-description">{{ personality_profile.profile_description }}</p>
+                
+                <div class="traits-section">
+                    <h3>Your Dominant Traits:</h3>
+                    <div class="traits-container">
+                        {% for trait in personality_profile.traits %}
+                        <span class="trait-tag">{{ trait | title }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="movies-grid">
+            {% for movie in movies %}
+            <div class="movie-card" data-movie-title="{{ movie.title }}">
+                <div class="movie-poster">
+                    <div class="poster-placeholder">
+                        <span class="movie-title-placeholder">{{ movie.title }}</span>
+                        <span class="movie-year-placeholder">({{ movie.year }})</span>
+                    </div>
+                    <div class="poster-overlay">
+                        <button class="play-trailer-btn" onclick="playTrailer('{{ movie.title }}')">▶ Play Trailer</button>
+                    </div>
+                </div>
+                
+                <div class="movie-info">
+                    <h3 class="movie-title">{{ movie.title }}</h3>
+                    <p class="movie-year">{{ movie.year }}</p>
+                    
+                    <div class="streaming-info">
+                        <h4>Available on:</h4>
+                        <div class="streaming-platforms">
+                            {% set found_service = False %}
+                            {% for service, available in movie.streaming.items() %}
+                                {% if available %}
+                                    <span class="platform {{ service }}">{{ service | title }}</span>
+                                    {% set found_service = True %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if not found_service %}
+                                <span class="platform unavailable">Check availability</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    {% if movie.news %}
+                    <div class="movie-news">
+                        <h4>Recent News:</h4>
+                        <div class="news-items">
+                            {% for article in movie.news[:2] %}
+                            <div class="news-item">
+                                <a href="{{ article.url }}" target="_blank" class="news-link">
+                                    {{ article.title }}
+                                </a>
+                                <span class="news-date">{{ article.publishedAt[:10] }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="recommendations-footer">
+            <a href="{{ url_for('quiz') }}" class="retake-quiz-button"><span>Take Quiz Again</span></a>
+            <a href="{{ url_for('new_movies') }}" class="new-movies-button"><span>🎬 New Movies</span></a>
+            <a href="{{ url_for('search') }}" class="search-button"><span>🔍 Search Movies</span></a>
+            <a href="{{ url_for('index') }}" class="home-button"><span>Back to Home</span></a>
+        </div>
+    </div>
+
+    <div id="trailerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="modal-header">
+                <h2 id="trailerTitle">Movie Trailer</h2>
+            </div>
+            <div class="modal-body">
+                <div id="trailerContainer" class="video-container">
+                    <iframe id="trailerFrame" width="100%" height="100%" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Get modal elements
+        const modal = document.getElementById('trailerModal');
+        const closeBtn = document.querySelector('.close-btn');
+        const trailerFrame = document.getElementById('trailerFrame');
+        const trailerTitle = document.getElementById('trailerTitle');
+
+        // Function to open modal and play trailer
+        function playTrailer(movieTitle) {
+            fetch(`/api/trailer/${encodeURIComponent(movieTitle)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.trailer && data.trailer.available && data.trailer.url) {
+                        trailerTitle.textContent = data.trailer.title;
+                        trailerFrame.src = data.trailer.url + "?autoplay=1"; // Add autoplay
+                        modal.style.display = 'block';
+                    } else {
+                        alert('Trailer not available for this movie.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching trailer:', error);
+                    alert('Failed to load trailer.');
+                });
+        }
+        
+        // Function to close the modal
+        function closeModal() {
+            modal.style.display = 'none';
+            // Stop the video by clearing the src attribute
+            trailerFrame.src = '';
+        }
+
+        // Event listeners for closing the modal
+        closeBtn.onclick = closeModal;
+        
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>

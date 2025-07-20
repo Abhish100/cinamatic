@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Movies - Cinematic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="new-movies-container">
+        <div class="new-movies-header">
+            <h1 class="new-movies-title">🎬 Latest Releases</h1>
+            <p class="new-movies-subtitle">Discover the newest movies hitting theaters and streaming platforms</p>
+        </div>
+        
+        <div class="new-movies-grid">
+            {% for movie in movies %}
+            <div class="new-movie-card" data-movie-title="{{ movie.title }}">
+                <div class="new-movie-poster">
+                    <div class="new-movie-poster-placeholder">
+                        <span class="new-movie-initial">{{ movie.title[0] }}</span>
+                    </div>
+                    <div class="new-movie-overlay">
+                        <button class="play-trailer-btn" onclick="playTrailer('{{ movie.title }}')">
+                            ▶️ Watch Trailer
+                        </button>
+                        <div class="streaming-info">
+                            {% if movie.streaming %}
+                                {% if movie.streaming.netflix %}
+                                    <span class="streaming-badge netflix">Netflix</span>
+                                {% endif %}
+                                {% if movie.streaming.hulu %}
+                                    <span class="streaming-badge hulu">Hulu</span>
+                                {% endif %}
+                                {% if movie.streaming.prime %}
+                                    <span class="streaming-badge prime">Prime</span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if movie.release_date %}
+                    <div class="release-date">
+                        <span class="release-label">Released:</span>
+                        <span class="release-value">{{ movie.release_date }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="new-movie-info">
+                    <h3 class="new-movie-title">{{ movie.title }}</h3>
+                    <p class="new-movie-year">{{ movie.year }}</p>
+                    <p class="new-movie-genre">{{ movie.genre|title }}</p>
+                    {% if movie.country %}
+                    <p class="new-movie-country">{{ movie.country }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="new-movies-navigation">
+            <a href="{{ url_for('index') }}" class="nav-link">🏠 Home</a>
+            <a href="{{ url_for('search') }}" class="nav-link">🔍 Search Movies</a>
+            <a href="{{ url_for('quiz') }}" class="nav-link">🧠 Take Quiz</a>
+        </div>
+    </div>
+    
+    <!-- Trailer Modal -->
+    <div id="trailerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2 id="trailerTitle">Movie Trailer</h2>
+            </div>
+            <div class="modal-body">
+                <div id="trailerContainer">
+                    <iframe id="trailerFrame" width="100%" height="400" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Trailer functionality
+        function playTrailer(movieTitle) {
+            fetch(`/api/trailer/${encodeURIComponent(movieTitle)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.trailer && data.trailer.url) {
+                        document.getElementById('trailerTitle').textContent = data.trailer.title;
+                        document.getElementById('trailerFrame').src = data.trailer.url;
+                        document.getElementById('trailerModal').style.display = 'block';
+                    } else {
+                        alert('Trailer not available for this movie.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching trailer:', error);
+                    alert('Failed to load trailer.');
+                });
+        }
+        
+        // Close modal when clicking on X or outside
+        document.querySelector('.close').onclick = function() {
+            document.getElementById('trailerModal').style.display = 'none';
+            document.getElementById('trailerFrame').src = '';
+        }
+        
+        window.onclick = function(event) {
+            const modal = document.getElementById('trailerModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+                document.getElementById('trailerFrame').src = '';
+            }
+        }
+    </script>
+</body>
+</html> 

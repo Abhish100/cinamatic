@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinematic - Find the Movie That Gets You</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="hero-container">
+        <div class="hero-background">
+            <video class="background-video" autoplay muted loop playsinline>
+                <source src="https://player.vimeo.com/external/434045526.sd.mp4?s=c27eecc69a27dbc4ff2b87d38afc35f1a9e7c02&profile_id=139&oauth2_token_id=57447761" type="video/mp4">
+            </video>
+            <div class="overlay"></div>
+            <div class="particles"></div>
+        </div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="title-line">Find the movie</span>
+                <span class="title-line">that gets you</span>
+            </h1>
+            
+            <p class="hero-subtitle">
+                Discover your cinematic personality and get personalized movie recommendations 
+                that match your unique taste and mood.
+            </p>
+            
+            <div class="cta-container">
+                <a href="{{ url_for('quiz') }}" class="cta-button">
+                    <span class="button-text">Start the Quiz</span>
+                    <span class="button-icon">→</span>
+                </a>
+                <div class="secondary-actions">
+                    <a href="{{ url_for('new_movies') }}" class="secondary-button">🎬 New Movies</a>
+                    <a href="{{ url_for('search') }}" class="secondary-button">🔍 Search Movies</a>
+                </div>
+            </div>
+            
+            <div class="hero-features">
+                <div class="feature">
+                    <div class="feature-icon">🎭</div>
+                    <span>Personality Analysis</span>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎬</div>
+                    <span>Curated Picks</span>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📺</div>
+                    <span>Streaming Info</span>
+                </div>
+            </div>
+            
+            <div class="sound-controls">
+                <button class="sound-toggle" id="soundToggle">
+                    <span class="sound-icon">🔊</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 

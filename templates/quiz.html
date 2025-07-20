@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Quiz - Cinematic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>Discover Your Cinematic Personality</h1>
+            <p>Answer these questions to find movies that match your unique taste</p>
+        </div>
+
+        <form id="personality-quiz" action="{{ url_for('process_quiz') }}" method="POST">
+            <div class="question-container">
+                <div class="question active" data-question="1">
+                    <h2>What does your ideal Friday night look like?</h2>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="friday_night" value="quiet_night" required>
+                            <span class="option-content">
+                                <span class="option-icon">📚</span>
+                                <span class="option-text">A quiet night in with a good book</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="friday_night" value="wild_party" required>
+                            <span class="option-content">
+                                <span class="option-icon">🎉</span>
+                                <span class="option-text">A wild party with lots of people</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="friday_night" value="puzzle_solving" required>
+                            <span class="option-content">
+                                <span class="option-icon">🧩</span>
+                                <span class="option-text">Solving a complex puzzle or mystery</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question" data-question="2">
+                    <h2>You find a mysterious, old map. What do you do?</h2>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="mysterious_map" value="adventure_seeker" required>
+                            <span class="option-content">
+                                <span class="option-icon">🗺️</span>
+                                <span class="option-text">Follow it immediately, seeking adventure</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="mysterious_map" value="history_researcher" required>
+                            <span class="option-content">
+                                <span class="option-icon">📖</span>
+                                <span class="option-text">Research its origins and history first</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="mysterious_map" value="skeptic" required>
+                            <span class="option-content">
+                                <span class="option-icon">🤔</span>
+                                <span class="option-text">Assume it's a fake and ignore it</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question" data-question="3">
+                    <h2>How do you prefer to express your creativity?</h2>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="creativity" value="creative_artist" required>
+                            <span class="option-content">
+                                <span class="option-icon">🎨</span>
+                                <span class="option-text">Through art, music, or writing</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="creativity" value="social_butterfly" required>
+                            <span class="option-content">
+                                <span class="option-icon">💬</span>
+                                <span class="option-text">Through social interactions and conversations</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="creativity" value="tech_enthusiast" required>
+                            <span class="option-content">
+                                <span class="option-icon">💻</span>
+                                <span class="option-text">Through technology and innovation</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question" data-question="4">
+                    <h2>What's your ideal weekend getaway?</h2>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="weekend_getaway" value="nature_lover" required>
+                            <span class="option-content">
+                                <span class="option-icon">🌲</span>
+                                <span class="option-text">A peaceful retreat in nature</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="weekend_getaway" value="traveler" required>
+                            <span class="option-content">
+                                <span class="option-icon">✈️</span>
+                                <span class="option-text">Exploring a new city or country</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="weekend_getaway" value="bookworm" required>
+                            <span class="option-content">
+                                <span class="option-icon">📚</span>
+                                <span class="option-text">A cozy library or bookstore</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question" data-question="5">
+                    <h2>How do you like to spend your free time?</h2>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="free_time" value="fitness_freak" required>
+                            <span class="option-content">
+                                <span class="option-icon">💪</span>
+                                <span class="option-text">Working out and staying active</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="free_time" value="foodie" required>
+                            <span class="option-content">
+                                <span class="option-icon">🍽️</span>
+                                <span class="option-text">Trying new restaurants and cuisines</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="free_time" value="gamer" required>
+                            <span class="option-content">
+                                <span class="option-icon">🎮</span>
+                                <span class="option-text">Playing video games</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question" data-question="6">
+                    <h2>What's your preferred way to relax?</h2>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="relaxation" value="meditation" required>
+                            <span class="option-content">
+                                <span class="option-icon">🧘</span>
+                                <span class="option-text">Meditation and mindfulness</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="relaxation" value="karaoke" required>
+                            <span class="option-content">
+                                <span class="option-icon">🎤</span>
+                                <span class="option-text">Karaoke with friends</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="relaxation" value="board_games" required>
+                            <span class="option-content">
+                                <span class="option-icon">🎲</span>
+                                <span class="option-text">Playing board games</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question" data-question="7">
+                    <h2>How do you prefer to watch movies?</h2>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="movie_watching" value="movie_theater" required>
+                            <span class="option-content">
+                                <span class="option-icon">🎬</span>
+                                <span class="option-text">At the movie theater</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="movie_watching" value="netflix" required>
+                            <span class="option-content">
+                                <span class="option-icon">📺</span>
+                                <span class="option-text">At home on streaming services</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="movie_watching" value="quiet_night" required>
+                            <span class="option-content">
+                                <span class="option-icon">🏠</span>
+                                <span class="option-text">Alone in a quiet environment</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-navigation">
+                <button type="button" class="nav-button prev-button" disabled>Previous</button>
+                <div class="progress-indicator">
+                    <span class="current-question">1</span>
+                    <span class="total-questions">/ 7</span>
+                </div>
+                <button type="button" class="nav-button next-button">Next</button>
+                <button type="submit" class="submit-button" style="display: none;">Get My Recommendations</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 

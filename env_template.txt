@@ -1,0 +1,3 @@
+TRAKT_CLIENT_ID=your_trakt_client_id
+NEWS_API_KEY=your_newsapi_key
+WATCHMODE_API_KEY=your_watchmode_api_key 

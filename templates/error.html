@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Cinematic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-content">
+            <div class="error-icon">🎬</div>
+            <h1 class="error-title">Oops! Something went wrong</h1>
+            <p class="error-message">{{ error }}</p>
+            <div class="error-actions">
+                <a href="{{ url_for('index') }}" class="error-button">Go Home</a>
+                <a href="{{ url_for('quiz') }}" class="error-button secondary">Try Again</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
